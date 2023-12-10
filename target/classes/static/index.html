@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Sender</title>
+</head>
+<body>
+    <h2>Send Email</h2>
+    <label for="email">Email Address:</label><br>
+    <input type="text" id="email" name="email"><br>
+    <label for="content">Content:</label><br>
+    <textarea id="content" name="content"></textarea><br>
+    <button onclick="sendEmail()">Send Email</button>
+
+    <script>
+        function sendEmail() {
+            var email = document.getElementById('email').value;
+            var content = document.getElementById('content').value;
+
+            fetch('/api/email/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `to=${encodeURIComponent(email)}&body=${encodeURIComponent(content)}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
